@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathArena Junior | Състезателна математика 5-6 клас</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>📐 MathArena Junior</h1>
+        <nav>
+            <button onclick="showSection('home')" class="active" id="btn-home">🏠 Начало</button>
+            
+            <!-- ОБЕДИНЕНО МЕНЮ: ИНТЕРАКТИВНИ МОДУЛИ -->
+            <div class="dropdown">
+                <button class="dropdown-btn" id="btn-modules">📖 Интерактивни модули ▼</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSection('theory'); showTheory('dirichlet-theory'); return false;">🎯 Дирихле</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('euler-theory'); return false;">🔵 Кръгове на Ойлер</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('combinatorics'); return false;">📊 Комбинаторика</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('sequences'); return false;">📈 Числови редици</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('induction'); return false;">🔄 Математическа индукция</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('parity'); return false;">📋 Принцип на паритета</a>
+                    <a href="#" onclick="showSection('theory'); showTheory('diophantine'); return false;">➗ Диофантови уравнения</a>
+                    <hr style="margin: 8px 0; border: none; border-top: 1px solid #e2e8f0;">
+                    <a href="#" onclick="showSection('dirichlet'); return false;">▶ Дирихле (Директен модул)</a>
+                    <a href="#" onclick="showSection('euler'); return false;">▶ Кръгове (Директен модул)</a>
+                </div>
+            </div>
+            
+            <button onclick="showSection('puzzle')" id="btn-puzzle">🧩 Ребуси</button>
+            <button onclick="showSection('games')" id="btn-games">🎮 Игри</button>
+            <button onclick="showSection('exam')" id="btn-exam">🏆 Състезание</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- НАЧАЛНА СТРАНИЦА -->
+        <section id="home" class="section active">
+            <h2>Добре дошли в MathArena Junior! 🚀</h2>
+            <p>Тази платформа е създадена специално за ученици в 5. и 6. клас, които се подготвят за математически състезания и олимпиади.</p>
+            <p>Изберете модул от горното меню, за да разгледате интерактивните уроци, симулации и тренажори.</p>
+            <ul>
+                <li>✨ Визуализация на абстрактни понятия</li>
+                <li>🎯 Задачи с автоматична проверка</li>
+                <li>🏆 Подготовка за състезания от високо ниво</li>
+            </ul>
+        </section>
+
+        <!-- ТЕОРИЯ -->
+        <section id="theory" class="section">
+            <h2>📚 Теоретична основа</h2>
+            
+            <div class="theory-nav">
+                <button onclick="showTheory('dirichlet-theory')" class="theory-btn">🎯 Дирихле</button>
+                <button onclick="showTheory('euler-theory')" class="theory-btn">🔵 Ойлер</button>
+                <button onclick="showTheory('combinatorics')" class="theory-btn">📊 Комбинаторика</button>
+                <button onclick="showTheory('sequences')" class="theory-btn">📈 Редици</button>
+                <button onclick="showTheory('induction')" class="theory-btn">🔄 Индукция</button>
+                <button onclick="showTheory('parity')" class="theory-btn">📋 Паритет</button>
+                <button onclick="showTheory('diophantine')" class="theory-btn">➗ Диофант</button>
+            </div>
+
+            <div id="theory-content" class="theory-content">
+                <!-- Съдържанието ще се зарежда динамично -->
+            </div>
+
+            <!-- ТЕОРИЯ СИМУЛАТОР -->
+            <div id="theory-simulator" class="theory-simulator" style="display: none;">
+                <h3>🔧 Интерактивна симулация</h3>
+                <div id="simulator-content"></div>
+            </div>
+
+            <!-- ПРИМЕРИ ЗА РЕШАВАНЕ -->
+            <div id="theory-examples" class="theory-examples" style="display: none;">
+                <h3>📝 Примери за решаване</h3>
+                <div id="examples-content"></div>
+            </div>
+        </section>
+
+        <!-- МОДУЛ 1: ПРИНЦИП НА ДИРИХЛЕ -->
+        <section id="dirichlet" class="section">
+            <h2>Интерактивен модул: Чекмеджетата на Дирихле</h2>
+            <p>Разпредели <b>N</b> предмета в <b>K</b> кутии и виж как работи математическото правило на живо!</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Предмети (Зайчета):</label>
+                    <input type="number" id="itemsCount" value="7" min="1" max="25" oninput="updateDirichlet()">
+                </div>
+                <div class="control-group">
+                    <label>Кутии (Къщички):</label>
+                    <input type="number" id="boxesCount" value="3" min="1" max="10" oninput="updateDirichlet()">
+                </div>
+            </div>
+
+            <div class="boxes-container" id="boxesContainer"></div>
+            <div class="explanation" id="resultText"></div>
+        </section>
+
+        <!-- МОДУЛ 2: КРЪГОВЕ НА ОЙЛЕР -->
+        <section id="euler" class="section">
+            <h2>Кръгове на Ойлер и Венови диаграми</h2>
+            <p>Управлявай броя на елементите в двете множества и виж как се променя тяхното сечение и общ брой!</p>
+            
+            <div class="controls">
+                <div class="control-group">
+                    <label>Множество A (напр. Шах):</label>
+                    <input type="number" id="setA" value="15" min="0" max="50" oninput="updateEuler()">
+                </div>
+                <div class="control-group">
+                    <label>Множество B (напр. Футбол):</label>
+                    <input type="number" id="setB" value="12" min="0" max="50" oninput="updateEuler()">
+                </div>
+                <div class="control-group">
+                    <label>Сечение (И двете):</label>
+                    <input type="number" id="setC" value="5" min="0" max="30" oninput="updateEuler()">
+                </div>
+            </div>
+
+            <div class="euler-container">
+                <canvas id="eulerCanvas" width="500" height="300"></canvas>
+            </div>
+
+            <div class="explanation" id="eulerResultText"></div>
+        </section>
+
+        <!-- МОДУЛ 3: ТРЕНАЖОР ЗА РЕБУСИ -->
+        <section id="puzzle" class="section">
+            <h2>🧩 Тренажор за криптирани математически ребуси</h2>
+            <p>Замени всяка буква с точна цифра, така че събирането да е вярно. (Напомняне: на различни букви отговарят различни цифри!)</p>
+            
+            <div class="puzzle-box">
+                <div class="puzzle-equation">AB + BA = 132</div>
+                
+                <div class="inputs-grid">
+                    <div class="input-card">
+                        <label>A =</label>
+                        <input type="number" id="valA" min="0" max="9">
+                    </div>
+                    <div class="input-card">
+                        <label>B =</label>
+                        <input type="number" id="valB" min="0" max="9">
+                    </div>
+                </div>
+
+                <button class="btn-check" onclick="checkPuzzle()">Провери отговора</button>
+            </div>
+
+            <div class="explanation" id="puzzleResultText" style="display: none;"></div>
+        </section>
+
+        <!-- МОДУЛ 5: МИНИ ИГРИ -->
+        <section id="games" class="section">
+            <h2>🎮 Мини Игри и Пъзели</h2>
+            
+            <div class="games-container">
+                <div class="game-card">
+                    <h3>🎲 Игра 1: Числова редица</h3>
+                    <p>Намери следващото число:</p>
+                    <div id="game1-sequence" style="font-size: 1.5em; font-weight: bold; color: #667eea; margin: 15px 0;">
+                        2, 4, 6, 8, ?
+                    </div>
+                    <input type="number" id="game1-answer" placeholder="Въведи отговора">
+                    <button class="btn-check" onclick="checkGame1()">Провери</button>
+                    <div id="game1-feedback" class="explanation" style="display: none;"></div>
+                </div>
+
+                <div class="game-card">
+                    <h3>🎯 Игра 2: Логически пъзел</h3>
+                    <p>Три приятели - Али, Боби, Чарли. Уници: куче, котка, папагал.</p>
+                    <p><strong>Улики:</strong></p>
+                    <ul style="margin-left: 15px; font-size: 0.9em;">
+                        <li>Али няма куче</li>
+                        <li>Боби няма папагал</li>
+                        <li>Чарли има куче</li>
+                    </ul>
+                    <p><strong>Въпрос:</strong> Кой има котка?</p>
+                    <select id="game2-answer">
+                        <option value="">Избери отговор...</option>
+                        <option value="Ali">Али</option>
+                        <option value="Bobi">Боби</option>
+                        <option value="Charli">Чарли</option>
+                    </select>
+                    <button class="btn-check" onclick="checkGame2()">Провери</button>
+                    <div id="game2-feedback" class="explanation" style="display: none;"></div>
+                </div>
+
+                <div class="game-card">
+                    <h3>🔢 Игра 3: Комбинаторика</h3>
+                    <p>По колко начина можеш да подредиш 3 различни цвята?</p>
+                    <p style="color: #666; font-size: 0.9em;">(червен, зелен, син)</p>
+                    <input type="number" id="game3-answer" placeholder="Въведи отговора">
+                    <button class="btn-check" onclick="checkGame3()">Провери</button>
+                    <div id="game3-feedback" class="explanation" style="display: none;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- МОДУЛ 4: СЪСТЕЗАТЕЛНА ЗАЛА -->
+        <section id="exam" class="section">
+            <h2>🏆 Состезателна зала (Mock Exam Arena)</h2>
+            <p>Тествай бързината и знанията си! Имаш <strong>15 минути</strong> да решиш 5 подбрани състезателни задачи за 5. и 6. клас.</p>
+
+            <div id="examStartScreen">
+                <button class="btn-check" onclick="startExam()">🚀 Стартирай пробния тест</button>
+            </div>
+
+            <div id="examActiveScreen" style="display: none;">
+                <div class="exam-header">
+                    <span><strong>Пробен изпит:</strong> Състезателна математика</span>
+                    <div class="timer-box">⏱️ <span id="timerDisplay">15:00</span></div>
+                </div>
+
+                <div id="questionsContainer"></div>
+
+                <button class="btn-check" onclick="submitExam()" style="margin-top: 15px; background: #10b981;">✅ Предай теста</button>
+            </div>
+
+            <div id="examResultScreen" style="display: none;"></div>
+        </section>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>Проект за НОИТ | Създаден от ученик в 6. клас</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
